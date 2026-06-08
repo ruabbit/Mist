@@ -51,7 +51,9 @@ struct Firmware: Decodable, Hashable, Identifiable {
     var name: String {
         var name: String = ""
 
-        if version.range(of: "^26", options: .regularExpression) != nil {
+        if version.range(of: "^27", options: .regularExpression) != nil {
+            name = "macOS Golden Gate"
+        } else if version.range(of: "^26", options: .regularExpression) != nil {
             name = "macOS Tahoe"
         } else if version.range(of: "^15", options: .regularExpression) != nil {
             name = "macOS Sequoia"
@@ -88,7 +90,8 @@ struct Firmware: Decodable, Hashable, Identifiable {
     }
 
     var imageName: String {
-        name.replacingOccurrences(of: " beta", with: "")
+        let imageName: String = name.replacingOccurrences(of: " beta", with: "")
+        return imageName == "macOS Golden Gate" ? "macOS" : imageName
     }
 
     var dictionary: [String: Any] {
